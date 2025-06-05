@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        DOTNET_ROOT = "/usr/share/dotnet"  // Adjust this if your agent uses Windows
+        DOTNET_ROOT = "/usr/share/dotnet"
         PATH = "${env.DOTNET_ROOT}:${env.PATH}"
     }
 
@@ -15,13 +15,13 @@ pipeline {
 
         stage('Restore') {
             steps {
-                sh 'dotnet restore src/Web/BlazorShared/BlazorShared.csproj'
+                sh 'dotnet restore src/Web/Web.csproj'
             }
         }
 
         stage('Build') {
             steps {
-                sh 'dotnet build src/Web/BlazorShared/BlazorShared.csproj --configuration Release'
+                sh 'dotnet build src/Web/Web.csproj --configuration Release'
             }
         }
 
@@ -33,7 +33,7 @@ pipeline {
 
         stage('Publish') {
             steps {
-                sh 'dotnet publish src/Web/BlazorShared/BlazorShared.csproj -c Release -o ./publish'
+                sh 'dotnet publish src/Web/Web.csproj -c Release -o ./publish'
             }
         }
 
@@ -46,7 +46,7 @@ pipeline {
 
     post {
         always {
-            echo 'Cleaning workspace...'
+            echo 'Cleaning up workspace...'
             cleanWs()
         }
     }
