@@ -1,10 +1,15 @@
 pipeline {
     agent any
 
+    environment {
+        DOTNET_ROOT = "/usr/share/dotnet"  // Adjust this if your agent uses Windows
+        PATH = "${env.DOTNET_ROOT}:${env.PATH}"
+    }
+
     stages {
         stage('Checkout') {
             steps {
-                git 'https://github.com/dotnet-architecture/eShopOnWeb.git'
+                git branch: 'main', url: 'https://github.com/Abz1996/eShopOnWeb.git'
             }
         }
 
@@ -41,6 +46,7 @@ pipeline {
 
     post {
         always {
+            echo 'Cleaning workspace...'
             cleanWs()
         }
     }
