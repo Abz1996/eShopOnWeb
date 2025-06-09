@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         DOTNET_ROOT = "/usr/share/dotnet"
-        PATH = "${env.DOTNET_ROOT}:${env.PATH}"
+        PATH = "${DOTNET_ROOT}:${PATH}"
     }
 
     stages {
@@ -21,19 +21,20 @@ pipeline {
 
         stage('Build') {
             steps {
-                sh 'dotnet build src/Web/Web.csproj --configuration Release'
+                sh 'dotnet build src/Web/Web.csproj --configuration Release --no-restore'
             }
         }
 
         stage('Test') {
             steps {
-                sh 'dotnet test'
+                // Optionally specify the actual test project if needed
+                sh 'dotnet test --no-restore --no-build'
             }
         }
 
         stage('Publish') {
             steps {
-                sh 'dotnet publish src/Web/Web.csproj -c Release -o ./publish'
+                sh 'dotnet publish src/Web/Web.csproj --configuration Release --output publish --no-restore --no-build'
             }
         }
 
