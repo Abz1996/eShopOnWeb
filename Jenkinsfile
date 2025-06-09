@@ -27,14 +27,14 @@ pipeline {
 
         stage('Test') {
             steps {
-                // Optionally specify the actual test project if needed
-                sh 'dotnet test --no-restore --no-build'
+                // Adjust the path if the test project is in a different location
+                sh 'dotnet test src/ApplicationCore/ApplicationCore.csproj --no-build --no-restore'
             }
         }
 
         stage('Publish') {
             steps {
-                sh 'dotnet publish src/Web/Web.csproj --configuration Release --output publish --no-restore --no-build'
+                sh 'dotnet publish src/Web/Web.csproj --configuration Release --output publish --no-build --no-restore'
             }
         }
 
